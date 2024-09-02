@@ -1,6 +1,7 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
 const { Account } = require('../db');
+const mongoose = require("mongoose");
 
 
 const router = express.Router();
@@ -36,7 +37,8 @@ router.get("/transfer", authMiddleware , async (req,res) => {
 
     const toAccount = await Account.findOne({
         userId : to
-    }).session(Session);
+    }).session(session);
+    console.log(to);
 
     if (!toAccount) {
         await session.abortTransaction();
@@ -47,11 +49,11 @@ router.get("/transfer", authMiddleware , async (req,res) => {
 
     await Account.updateOne({
         userId : req.userId
-    }, {$inc : {balance : -amount} }).session(Session);
+    }, {$inc : {balance : -amount} }).session(session);
 
     await Account.updateOne({
         userId : to
-    }, {$inc : { balance : amount}}).session(Session);
+    }, {$inc : { balance : amount}}).session(session);
 
     await session.commitTransaction();
     res.json({
