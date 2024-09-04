@@ -2,7 +2,7 @@
 const  mongoose = require("mongoose"); 
 
 
-console.log(process.env.MONGO_URI, 'MONGO_URI'); 
+console.log(process.env.MONGO_URI); 
 
 
 const dbConnection = async()=>{
