@@ -63,13 +63,27 @@ export const Users = () => {
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState("");
 
-    useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
-            .then(response => {
-                setUsers(response.data.users)
-            })
-    }, [filter])
-    console.log(users)
+    function useDebounce ( filter){
+   
+            useEffect(() => {
+                setTimeout(() => {
+                axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+                    .then(response => {
+                        setUsers(response.data.users)
+                    })
+                }, 500);
+            }, [filter])
+        
+    }
+    const debounce = useDebounce(filter);
+
+    // useEffect(() => {
+    //     axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+    //         .then(response => {
+    //             setUsers(response.data.users)
+    //         })
+    // }, [filter])
+    // console.log(users)
 
     return <>
         <div className="font-bold mt-6 text-lg">

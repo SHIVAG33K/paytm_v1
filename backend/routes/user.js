@@ -117,7 +117,7 @@ const updateBody = zod.object({
     lastName : zod.string().optional(),
 })
 
-router.put('/' , async (req,res) => {
+router.put('/transfer' , async (req,res) => {
     const body = req.body
     const {success} = updateBody.safeParse(req.body)
     if (!success) {
